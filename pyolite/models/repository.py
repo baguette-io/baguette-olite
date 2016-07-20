@@ -1,6 +1,6 @@
 from unipath import Path
 
-from models.lists import ListUsers
+from pyolite.models.lists import ListUsers
 
 
 class Repository(object):

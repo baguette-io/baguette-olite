@@ -1,8 +1,8 @@
 from unipath import Path
 import re
 
-from repo import Repo
-from models.user import User
+from pyolite.repo import Repo
+from pyolite.models.user import User
 
 
 ACCEPTED_PERMISSIONS = set('RW+CD')

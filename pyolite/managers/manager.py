@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 
 from unipath import Path
 
-from git import Git
+from pyolite.git import Git
 
 
 class Manager(object):

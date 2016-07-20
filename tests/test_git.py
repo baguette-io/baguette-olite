@@ -3,7 +3,7 @@ from unittest import TestCase
 from mock import MagicMock, patch, call
 from nose.tools import raises, eq_
 
-from git import Git
+from pyolite.git import Git
 
 
 class TestGit(TestCase):
