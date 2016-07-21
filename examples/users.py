@@ -6,7 +6,7 @@ olite = Pyolite(admin_repository=admin_repository)
 
 # create user object
 vlad = olite.users.create(name='bob',
-                          key_path='~/.ssh/second_rsa.pub')
+                                                    key_path='~/.ssh/second_rsa.pub')
 
 # get user by name
 vlad = olite.users.get(name='admin')
