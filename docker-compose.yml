@@ -1,6 +1,6 @@
 version: '2'
 services:
-  test:
+  tests:
     build: .
     command: nosetests --with-coverage --cover-package=pyolite
     volumes:
