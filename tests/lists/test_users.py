@@ -90,7 +90,7 @@ class TestUserList(Spec):
       repo_users = ListUsers(mocked_repository)
       repo_users.remove('test')
 
-      pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s' % 'another_user'
+      pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % 'another_user'
       mocked_repo.replace.assert_called_once_with(pattern, "")
 
       message = "Deleted user another_user from repository test_repo"
@@ -117,7 +117,7 @@ class TestUserList(Spec):
       repo_users = ListUsers(mocked_repository)
       repo_users.edit('test', 'R')
 
-      pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s' % 'another_user'
+      pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % 'another_user'
       string = r"\n    %s    =    %s" % ('R', 'another_user')
       mocked_repo.replace.assert_called_once_with(pattern, string)
 
