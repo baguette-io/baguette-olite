@@ -52,7 +52,7 @@ class TestKeyList(TestCase):
     ])
 
   def test_list_remove(self):
-    key = "my_awesome_key"
+    key = "ssh-rsa my_awesome_key"
 
     mock_file = MagicMock()
     mock_file.__str__ = lambda x: key

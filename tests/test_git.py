@@ -17,7 +17,7 @@ class TestGit(TestCase):
     mock_repo.index = mock_index
     mock_repo.remotes.origin = mock_remotes
 
-    with patch.multiple('git', Repo=mock_repo):
+    with patch.multiple('pyolite.repo', Repo=mock_repo):
       git = Git('~/path/to/repo')
       objects = ['simple_object', 'more_complex_one']
 
@@ -31,7 +31,7 @@ class TestGit(TestCase):
     mock_repo.index = mock_index
     mock_repo.remotes.origin = mock_remotes
 
-    with patch.multiple('git', Repo=MagicMock(return_value=mock_repo)):
+    with patch.multiple('pyolite.repo', Repo=MagicMock(return_value=mock_repo)):
       git = Git('~/path/to/repo')
 
       objects = ['simple_object', 'more_complex_one']
