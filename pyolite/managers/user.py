@@ -18,14 +18,15 @@ class UserManager(Manager):
         return User.get_by_name(name, self.path, self.git)
 
     def delete(self, name):
-        user = User(self.path, self.git, name)
+        user = User.get_by_name(name, self.path, self.git)
+        if not user:
+            return
         dest = Path(self.path, 'keydir/%s' % name)
-        if not dest.exists():
-            raise ValueError('Repository %s not existing.' % name)
-        dest.rmtree()
-        self.git.commit([str(dest)], 'Deleted user %s.' % name)
-        
-        return user
+        for repo in user.repos:
+            repo.users.remove(user.name)
+        if dest.exists():
+            dest.rmtree()
+            self.git.commit([str(dest)], 'Deleted user %s.' % name)
 
     def all(self):
         users = []

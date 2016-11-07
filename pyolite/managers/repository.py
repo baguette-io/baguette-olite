@@ -29,13 +29,12 @@ class RepositoryManager(Manager):
 
     def delete(self, lookup_repo_name):
         repo = Repository(lookup_repo_name, self.path, self.git)
+        if not repo:
+            return
         dest = Path(self.path, 'conf/repos/%s.conf' % lookup_repo_name)
-        if not dest.exists():
-            raise ValueError('Repository %s not existing.' % lookup_repo_name)
-        dest.remove()
-        self.git.commit([str(dest)], 'Deleted repo %s.' % lookup_repo_name)
-
-        return repo
+        if dest.exists():
+            dest.remove()
+            self.git.commit([str(dest)], 'Deleted repo %s.' % lookup_repo_name)
 
     def all(self):
         repos = []

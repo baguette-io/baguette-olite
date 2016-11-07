@@ -38,14 +38,10 @@ class ListKeys(list):
                                          hashlib.md5(key.strip().split()[1]).hexdigest())
         key_file = Path(directory, "%s.pub" % self.user.name)
 
-        if not key_file.exists():
-            raise ValueError("Invalid key")
-
-        key_file.remove()
-        key_file.parent.rmdir()
-
-        self.user.git.commit(['keydir'],
-                                                 'Removed key for user %s' % self.user.name)
+        if key_file.exists():
+            key_file.remove()
+            key_file.parent.rmdir()
+            self.user.git.commit(['keydir'], 'Removed key for user %s' % self.user.name)
 
     def __add__(self, keys):
         for key in keys:

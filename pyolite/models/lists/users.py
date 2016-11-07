@@ -29,9 +29,7 @@ class ListUsers(object):
     @with_user
     def add(self, user, permission):
         if user.name in self.repo.users:
-            raise ValueError('User %s already exists. Please check '
-                                             'example/repository.py in order to see how you can '
-                                             'delete or change permissions' % user.name)
+            return user
 
         if set(map(lambda permission: permission.upper(), permission)) - \
              ACCEPTED_PERMISSIONS != set([]):
