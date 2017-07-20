@@ -1,5 +1,6 @@
 from managers.repository import RepositoryManager
 from managers.user import UserManager
+from managers.goup import GroupManager
 
 
 class Pyolite(object):
@@ -9,3 +10,4 @@ class Pyolite(object):
 
         self.users = UserManager(admin_repository)
         self.repos = RepositoryManager(admin_repository)
+        self.groups = GroupManager(admin_repository)
