@@ -5,8 +5,7 @@ admin_repository = '/home/absolute/path/to/gitolite/repo/'
 olite = Pyolite(admin_repository=admin_repository)
 
 # create user object
-vlad = olite.users.create(name='bob',
-                                                    key_path='~/.ssh/second_rsa.pub')
+vlad = olite.users.create(name='bob', key_path='~/.ssh/second_rsa.pub')
 
 # get user by name
 vlad = olite.users.get(name='admin')
@@ -22,6 +21,3 @@ vlad.keys.remove("my awesome key")
 
 # check if user is admin or not
 print vlad.is_admin
-
-# TODO:
-# vlad.repos['oxygen'].permissions = 'RW+'
