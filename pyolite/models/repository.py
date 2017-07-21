@@ -1,5 +1,4 @@
 from unipath import Path
-
 from pyolite.views import ListGroups, ListUsers
 
 
@@ -24,4 +23,7 @@ class Repository(object):
         return None
 
     def __str__(self):
-        return "< %s >" % self.name
+        return "<Repository: %s >" % self.name
+
+    def __repr__(self):
+        return "<Repository: %s >" % self.name
