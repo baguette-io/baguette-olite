@@ -1,7 +1,0 @@
-version: '2'
-services:
-  tests:
-    build: .
-    command: nosetests --with-coverage --cover-package=pyolite
-    volumes:
-      - .:/usr/src
