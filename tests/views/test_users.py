@@ -3,7 +3,7 @@ from spec import Spec
 from mock import MagicMock, patch, call
 from nose.tools import raises
 
-from pyolite.models.lists.users import ListUsers
+from pyolite.views.users import ListUsers
 
 
 class TestUserList(Spec):
@@ -19,8 +19,7 @@ class TestUserList(Spec):
         mocked_user.get.return_value = MagicMock(name='another_user')
         mocked_repo.users = ['another_user']
 
-        with patch.multiple('pyolite.models.lists.users',
-                                                Repo=mocked_repo, User=mocked_user):
+        with patch.multiple('pyolite.views.users', Repo=mocked_repo, User=mocked_user):
             repo_users = ListUsers(mocked_repository)
             repo_users.add('test', 'hiRW+')
 
@@ -36,8 +35,7 @@ class TestUserList(Spec):
         mocked_user.get.return_value = MagicMock(name='another_user')
         mocked_repo.users = ['user']
 
-        with patch.multiple('pyolite.models.lists.users',
-                                                Repo=mocked_repo, User=mocked_user):
+        with patch.multiple('pyolite.views.users', Repo=mocked_repo, User=mocked_user):
             repo_users = ListUsers(mocked_repository)
             repo_users.add('test', 'hiRW+')
 
@@ -56,8 +54,7 @@ class TestUserList(Spec):
         mocked_user.get.return_value = mock_single_user
         mocked_repo.users = ['user']
 
-        with patch.multiple('pyolite.models.lists.users',
-                                                Repo=MagicMock(return_value=mocked_repo),
+        with patch.multiple('pyolite.views.users', Repo=MagicMock(return_value=mocked_repo),
                                                 User=mocked_user):
             repo_users = ListUsers(mocked_repository)
             repo_users.add('test', 'RW+')
@@ -84,8 +81,7 @@ class TestUserList(Spec):
         mocked_user.get.return_value = mock_single_user
         mocked_repo.users = ['user']
 
-        with patch.multiple('pyolite.models.lists.users',
-                                                Repo=MagicMock(return_value=mocked_repo),
+        with patch.multiple('pyolite.views.users', Repo=MagicMock(return_value=mocked_repo),
                                                 User=mocked_user):
             repo_users = ListUsers(mocked_repository)
             repo_users.remove('test')
@@ -111,8 +107,7 @@ class TestUserList(Spec):
         mocked_user.get.return_value = mock_single_user
         mocked_repo.users = ['user']
 
-        with patch.multiple('pyolite.models.lists.users',
-                                                Repo=MagicMock(return_value=mocked_repo),
+        with patch.multiple('pyolite.views.users', Repo=MagicMock(return_value=mocked_repo),
                                                 User=mocked_user):
             repo_users = ListUsers(mocked_repository)
             repo_users.edit('test', 'R')

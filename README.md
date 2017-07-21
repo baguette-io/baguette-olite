@@ -1,18 +1,21 @@
-pyolite [![Build Status](https://travis-ci.org/PressLabs/svg?branch=master)](https://travis-ci.org/PressLabs/pyolite) [![Coverage Status](https://coveralls.io/repos/PressLabs/pyolite/badge.png)](https://coveralls.io/r/PressLabs/pyolite) [![Downloads](https://pypip.in/d/pyolite/badge.png)](https://crate.io/packages/pyolite/)
+baguetteolite [![Build Status](https://travis-ci.org/PressLabs/svg?branch=master)](https://travis-ci.org/PressLabs/pyolite) [![Coverage Status](https://coveralls.io/repos/PressLabs/pyolite/badge.png)](https://coveralls.io/r/PressLabs/pyolite) [![Downloads](https://pypip.in/d/pyolite/badge.png)](https://crate.io/packages/pyolite/)
 =======
 # Python wrapper for gitolite
 
-Easy and simple to user, just `pip install pyolite` and boom!!!
+Easy and simple to user, just `pip install baguettolite` and boom!!!
 
-Using an intuitive API, `pyolite` help you easly create users and repos using `gitolite`.
+Using an intuitive API, `baguettolite` help you easly create users and repos using `gitolite`.
 
 ## Gitolite Setup Prereqs
 
-Using Pyolite is very easy, but requires some initial set up. First, your **gitolite-admin** repo must contain a directory called `repos`, and all `.conf` files in this directory should be included in your `gitolite.conf` file. For example, your **gitolite-admin** repo might have the following structure:
+Using Pyolite is very easy, but requires some initial set up. First, your **gitolite-admin** repo must contain a directory called `repos` and another one called 
+`groups`, and all `.conf` files in these directories should be included in your `gitolite.conf` file. For example, your **gitolite-admin** repo might have the following structure:
 
 ```
 ├── gitolite.conf
 └── repos
+    └── [ empty ]
+└── groups
     └── [ empty ]
 ```
 
@@ -26,6 +29,7 @@ repo testing
     RW+     =   @all
 
 include	    "repos/*.conf"
+include	    "groups/*.conf"
 ```
 
 This is required because Pyolite makes changes to files only inside the **repos** directory.
@@ -114,5 +118,3 @@ repos_as_list = vlad.list_repos()
 deleted_user = olite.users.delete('username')
 print deleted_user
 ```
-
-If you need any help with this module, write me `vlad@presslabs.com`

@@ -7,15 +7,14 @@ requires = ['sh==1.09', 'Unipath==1.0', 'argparse==1.2.1',
                         'spec==0.11.1', 'wsgiref==0.1.2']
 
 
-setup(name="pyolite",
-            version="1.3.7",
+setup(name="baguetteolite",
+            version="1.0.0",
             platforms='any',
             packages=find_packages(),
             include_package_data=True,
             install_requires=requires,
             author="Vlad Temian",
-            author_email="vlad@presslabs.com",
-            url="https://github.com/Presslabs/pyolite",
+            url="https://github.com/baguette-io/pyolite",
             description="Python wrapper for gitolite",
             classifiers=[
                     'Development Status :: 5 - Production/Stable',
