@@ -2,9 +2,9 @@ baguetteolite [![Build Status](https://travis-ci.org/PressLabs/svg?branch=master
 =======
 # Python wrapper for gitolite
 
-Easy and simple to user, just `pip install baguettolite` and boom!!!
+Easy and simple to user, just `pip install baguette-olite` and boom!!!
 
-Using an intuitive API, `baguettolite` help you easly create users and repos using `gitolite`.
+Using an intuitive API, `pyolite` help you easly create users and repos using `gitolite`.
 
 ## Gitolite Setup Prereqs
 

@@ -7,7 +7,7 @@ requires = ['sh==1.09', 'Unipath==1.0', 'argparse==1.2.1',
                         'spec==0.11.1', 'wsgiref==0.1.2']
 
 
-setup(name="baguetteolite",
+setup(name="baguette-olite",
             version="1.0.0",
             platforms='any',
             packages=find_packages(),
