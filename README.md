@@ -1,4 +1,4 @@
-baguetteolite [![Build Status](https://travis-ci.org/PressLabs/svg?branch=master)](https://travis-ci.org/PressLabs/pyolite) [![Coverage Status](https://coveralls.io/repos/PressLabs/pyolite/badge.png)](https://coveralls.io/r/PressLabs/pyolite) [![Downloads](https://pypip.in/d/pyolite/badge.png)](https://crate.io/packages/pyolite/)
+baguetteolite [![Build Status](https://travis-ci.org/baguette-io/pyolite.svg?branch=master)](https://travis-ci.org/baguette-io/pyolite) [![Coverage Status](https://coveralls.io/repos/baguette-io/pyolite/badge.png)](https://coveralls.io/r/baguette-io/pyolite)
 =======
 # Python wrapper for gitolite
 
