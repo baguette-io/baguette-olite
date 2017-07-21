@@ -1,6 +1,6 @@
 from unipath import Path
 
-from pyolite.models.lists import ListKeys
+from pyolite.views import ListKeys
 
 
 class User(object):

@@ -1,17 +1,17 @@
 from unipath import Path
 
 class Group(object):
-    def __init__(self, path, git, name):
+    def __init__(self, name, path, git):
+        self.name = name
         self.path = path
         self.git = git
-        self.name = name
         self.users = []
 
     @classmethod
     def get_by_name(cls, name, path, git):
         path = Path(path, 'groups/{}.conf'.format(name))
         if path.exists():
-            return Group(path, git, name)
+            return Group(name, path, git)
         else:
             return None
 

@@ -1,6 +1,5 @@
 import re
 
-
 class Repo(object):
     def __init__(self, path):
         self.path = path
@@ -25,6 +24,18 @@ class Repo(object):
                 users.append(match.group(2))
 
         return users
+
+    @property
+    def groups(self):
+        if not self.path.exists():
+            return []
+
+        groups = []
+        with open(str(self.path)) as f:
+            config = f.read()
+            for match in re.compile('=( *)(@\w+)').finditer(config):
+                groups.append(match.group(2))
+        return groups
 
     def write(self, string):
         with open(self.path, 'a') as f:

@@ -9,7 +9,7 @@ class GroupManager(Manager):
     def create(self, name, users):
         if not users:
             raise ValueError('You need to specify at list one user.')
-        return Group(self.path, self.git, name, users)
+        return Group(name, self.path, self.git, users)
 
     def get(self, name):
         return User.get_by_name(name, self.path, self.git)
