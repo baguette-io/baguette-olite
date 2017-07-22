@@ -1,5 +1,5 @@
 import re
-from pyolite.models.group import Group
+from pyolite.models import Group
 
 
 ACCEPTED_PERMISSIONS = set('RW+CD')
