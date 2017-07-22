@@ -1,7 +1,4 @@
-#from unipath import Path
 import re
-
-from pyolite.repo import Repo
 from pyolite.models import Group, User
 
 
@@ -26,16 +23,10 @@ def with_user(func):
 class ListUsers(object):
     def __init__(self, parent):
         self.parent = parent
-        #if isinstance(parent, Repo):
-        #    self.parent = Repo(Path(parent.path, "conf/repos/%s.conf" % parent.name))
-        #elif isinstance(parent, Group):
-        #    self.parent = Group(Path(parent.path, "conf/groups/%s.conf" % parent.name))
-        #else:
-        #    raise TypeError
 
     @with_user
     def add(self, user, permission):
-        if user.name in self.parent.users:
+        if user.name in self.parent.objects:
             return user
         #
         if set(map(lambda permission: permission.upper(), permission)) - ACCEPTED_PERMISSIONS != set([]):
@@ -69,7 +60,7 @@ class ListUsers(object):
 
     def list(self):
         users = []
-        for user in self.parent.users:
+        for user in self.parent.objects:
             if user == "None":
                 continue
             pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % user
@@ -81,7 +72,7 @@ class ListUsers(object):
         return users
 
     def __iter__(self):
-        for user in self._user:
+        for user in self._users:
             yield user
 
     def __getitem__(self, item):
@@ -95,4 +86,4 @@ class ListUsers(object):
             self.append(item)
 
     def __str__(self):
-        return "['%s']" % ', '.join(self.parent.users)
+        return "['%s']" % ', '.join(self.parent.objects)
