@@ -1,3 +1,4 @@
+import re
 from unipath import Path
 from pyolite.views import ListUsers
 
@@ -6,6 +7,7 @@ class Group(object):
         self.name = name
         self.path = path
         self.git = git
+        self.regex = re.compile('=( *)(@\w+)')
         self.users = ListUsers(self)
 
     @classmethod

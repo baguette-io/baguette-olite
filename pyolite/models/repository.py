@@ -1,12 +1,15 @@
+import re
 from unipath import Path
 from pyolite.views import ListGroups, ListUsers
+from pyolite.abstracts import Config
 
 
-class Repository(object):
+class Repository(Config):
     def __init__(self, name, path, git):
         self.name = name
         self.path = path
         self.git = git
+        self.regex = re.compile('=( *)(\w+)')
         #
         self.users = ListUsers(self)
         self.groups = ListGroups(self)

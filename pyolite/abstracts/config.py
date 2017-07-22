@@ -1,9 +1,20 @@
+import abc
 import re
 import fcntl
 
-class Repo(object):
-    def __init__(self, path):
-        self.path = path
+class Config(object):
+    """
+    Config file management.
+    """
+    __metaclass__ = abc.ABCMeta
+
+    @property
+    def path(self):
+        raise NotImplementedError
+
+    @property
+    def regex(self):
+        raise NotImplementedError
 
     def replace(self, pattern, string):
         with open(str(self.path), 'r+') as f:
@@ -18,33 +29,18 @@ class Repo(object):
             fcntl.flock(f, fcntl.LOCK_UN)
 
     @property
-    def users(self):
+    def objects(self):
         if not self.path.exists():
             return []
 
-        users = []
+        objects = []
         with open(str(self.path)) as f:
             fcntl.flock(f, fcntl.LOCK_EX)
             config = f.read()
             fcntl.flock(f, fcntl.LOCK_UN)
-            for match in re.compile('=( *)(\w+)').finditer(config):
-                users.append(match.group(2))
-
-        return users
-
-    @property
-    def groups(self):
-        if not self.path.exists():
-            return []
-
-        groups = []
-        with open(str(self.path)) as f:
-            fcntl.flock(f, fcntl.LOCK_EX)
-            config = f.read()
-            fcntl.flock(f, fcntl.LOCK_UN)
-            for match in re.compile('=( *)(@\w+)').finditer(config):
-                groups.append(match.group(2))
-        return groups
+            for match in self.regex.finditer(config):
+                objects.append(match.group(2))
+        return objects
 
     def write(self, string):
         with open(self.path, 'a') as f:
