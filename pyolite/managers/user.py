@@ -1,8 +1,8 @@
 import re
 from unipath import Path
 
-from pyolite.models.user import User
-from pyolite.managers.manager import Manager
+from pyolite.abstracts import Manager
+from pyolite.models import User
 
 
 class UserManager(Manager):

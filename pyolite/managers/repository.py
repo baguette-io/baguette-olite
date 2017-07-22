@@ -1,8 +1,7 @@
-import re
 from unipath import Path
 
-from pyolite.models.repository import Repository
-from .manager import Manager
+from pyolite.abstracts import Manager
+from pyolite.models import Repository
 
 
 class RepositoryManager(Manager):
