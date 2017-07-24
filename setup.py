@@ -4,22 +4,17 @@ Setup for baguette-olite.
 from setuptools import setup, find_packages
 
 setup(name="baguette-olite",
-      version="1.0.0",
-      platforms='any',
-      packages=find_packages(),
-      include_package_data=True,
-      author="Vlad Temian",
+      version="1.0",
+      author_email="pydavid@baguette.io",
       url="https://github.com/baguette-io/pyolite",
       description="Python wrapper for gitolite",
+      long_description=open('README.rst').read(),
+      packages=find_packages(),
+      include_package_data=True,
       classifiers=[
-          'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
           'Intended Audience :: System Administrators',
           'License :: OSI Approved :: BSD License',
-          'Operating System :: MacOS :: MacOS X',
-          'Operating System :: Microsoft :: Windows',
-          'Operating System :: POSIX',
-          'Topic :: System :: Networking',
           'Programming Language :: Python :: 2.7',
       ],
       install_requires=[
