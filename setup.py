@@ -21,11 +21,6 @@ setup(name="baguette-olite",
       install_requires=[
           'sh==1.09',
           'Unipath==1.0',
-          'argparse==1.2.1',
-          'async==0.6.1',
-          'coverage==3.7.1',
-          'gitdb==0.5.4',
-          'smmap==0.8.2',
       ],
       extras_require={
           'testing':[

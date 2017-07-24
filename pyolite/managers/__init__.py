@@ -1,3 +1,3 @@
-from .group import GroupManager
-from .repo import RepositoryManager
+#from .group import GroupManager
+from .repository import RepositoryManager
 from .user import UserManager
