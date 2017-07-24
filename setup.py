@@ -16,6 +16,7 @@ setup(name="baguette-olite",
           'Intended Audience :: System Administrators',
           'License :: OSI Approved :: BSD License',
           'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3.6',
       ],
       install_requires=[
           'sh==1.09',
