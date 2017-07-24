@@ -7,7 +7,7 @@ class Group(object):
         self.name = name
         self.path = path
         self.git = git
-        self.regex = re.compile('=( *)(@\w+)')
+        self.regex = re.compile(r'=( *)(@\w+)')
         self.users = ListUsers(self)
 
     @classmethod
@@ -20,11 +20,11 @@ class Group(object):
 
     @classmethod
     def get(cls, group, path, git):
-        if isinstance(group, basestring):
+        if isinstance(group, str):
             group = Group.get_by_name(group, path, git)
 
         if not isinstance(group, Group) or not group:
-            message = 'Missing user or invalid type'
+            message = 'Missing group or invalid type'
             raise ValueError(message)
         return group
 

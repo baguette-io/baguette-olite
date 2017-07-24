@@ -10,7 +10,7 @@ class Git(object):
 
     def commit(self, objects, message):
         # validate commit message
-        if not message or not isinstance(message, basestring):
+        if not message or not isinstance(message, str):
             raise ValueError("Commit message should not be empty or not string")
 
         env = os.environ.copy()
@@ -19,7 +19,7 @@ class Git(object):
                 'GIT_DIR': '%s/.git' % self.repo,
         })
 
-        git.gc("--prune --force", _env=env)
+        git.gc("--force", "--prune", _env=env)
         git.checkout("HEAD", _env=env)
 
         # pull and push from and to the remote

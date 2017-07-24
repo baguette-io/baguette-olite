@@ -1,12 +1,13 @@
 import abc
-import re
 import fcntl
+import six
+import re
 
+@six.add_metaclass(abc.ABCMeta)
 class Config(object):
     """
     Config file management.
     """
-    __metaclass__ = abc.ABCMeta
 
     @property
     def path(self):

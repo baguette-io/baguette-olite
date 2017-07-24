@@ -1,6 +1,5 @@
-from managers.repository import RepositoryManager
-from managers.user import UserManager
-from managers.goup import GroupManager
+from pyolite.managers import RepositoryManager
+from pyolite.managers import GroupManager, RepositoryManager, UserManager
 
 class Pyolite(object):
 
