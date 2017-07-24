@@ -2,8 +2,8 @@
 baguette-olite
 ==============
 
-.. image:: https://travis-ci.org/baguette-io/pyolite?branch=master
-    :target: https://travis-ci.org/baguette-io/pyolite
+.. image:: https://travis-ci.org/baguette-io/baguette-olite?branch=master
+    :target: https://travis-ci.org/baguette-io/baguette-olite
 
 Python wrapper for gitolite. Fork from https://github.com/PressLabs/pyolite.
 

@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 setup(name="baguette-olite",
       version="1.0",
       author_email="pydavid@baguette.io",
-      url="https://github.com/baguette-io/pyolite",
+      url="https://github.com/baguette-io/baguette-olite/",
       description="Python wrapper for gitolite",
       long_description=open('README.rst').read(),
       packages=find_packages(),
