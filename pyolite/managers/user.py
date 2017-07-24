@@ -2,7 +2,7 @@ import re
 from unipath import Path
 
 from pyolite.abstracts import Manager
-from pyolite.models import User
+from pyolite import User
 
 
 class UserManager(Manager):

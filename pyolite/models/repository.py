@@ -1,6 +1,7 @@
 import re
 from unipath import Path
-from pyolite.views import ListGroups, ListUsers
+#from pyolite.views import ListGroups, ListUsers
+from pyolite.views import ListUsers
 from pyolite.abstracts import Config
 
 
@@ -12,7 +13,7 @@ class Repository(Config):
         self.regex = re.compile('=( *)(\w+)')
         #
         self.users = ListUsers(self)
-        self.groups = ListGroups(self)
+        #self.groups = ListGroups(self)
 
     @classmethod
     def get_by_name(cls, lookup_repo, path, git):

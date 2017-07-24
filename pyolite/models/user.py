@@ -1,4 +1,5 @@
-
+import re
+from  unipath import Path
 
 from pyolite.views import ListKeys
 
@@ -10,7 +11,7 @@ class User(object):
         self.git = git
         self.regex = re.compile(r'=( *)(\w+)')
         #
-        self.repos = repos or []
+        self.repos = kwargs.get('repos', [])
         self.keys = ListKeys(self, kwargs.get('keys') or [])
 
     @classmethod

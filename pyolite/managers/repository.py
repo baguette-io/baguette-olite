@@ -1,6 +1,6 @@
 from unipath import Path
 
-from pyolite.models import Repository
+from pyolite import Repository
 from pyolite.abstracts import Manager
 
 
