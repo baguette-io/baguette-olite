@@ -82,7 +82,7 @@ def test_replace_filelocking():
     mocked_open = MagicMock()
     path = 'tests/fixtures/config.conf'
 
-    with patch('__builtin__.open', mocked_open, create=True):
+    with patch('pyolite.abstracts.config.open', mocked_open, create=True):
         manager = mocked_open.return_value.__enter__.return_value
 
         # asserts file locking has been put in place before reading
@@ -110,7 +110,7 @@ def test_users_filelocking():
     mocked_fcntl = MagicMock()
     mocked_open = MagicMock()
 
-    with patch('__builtin__.open', mocked_open, create=True):
+    with patch('pyolite.abstracts.config.open', mocked_open, create=True):
         manager = mocked_open.return_value.__enter__.return_value
 
         # asserts file locking has been put in place before reading
@@ -137,7 +137,7 @@ def test_write_filelocking():
     mocked_fcntl = MagicMock()
     mocked_open = MagicMock()
 
-    with patch('__builtin__.open', mocked_open, create=True):
+    with patch('pyolite.abstracts.config.open', mocked_open, create=True):
         manager = mocked_open.return_value.__enter__.return_value
 
         # asserts file locking has been put in place before writing
@@ -163,7 +163,7 @@ def test_overwrite_filelocking():
     mocked_fcntl = MagicMock()
     mocked_open = MagicMock()
 
-    with patch('__builtin__.open', mocked_open, create=True):
+    with patch('pyolite.abstracts.config.open', mocked_open, create=True):
         manager = mocked_open.return_value.__enter__.return_value
 
         # asserts file locking has been put in place before writing
