@@ -17,7 +17,7 @@ class Config(object):
         raise NotImplementedError
 
     def replace(self, pattern, string):
-        with open(str(self.path), 'r+') as f:
+        with open(str(self.config), 'r+') as f:
             fcntl.flock(f, fcntl.LOCK_EX)
             #
             content = f.read()
@@ -30,11 +30,11 @@ class Config(object):
 
     @property
     def objects(self):
-        if not self.path.exists():
+        if not self.config.exists():
             return []
 
         objects = []
-        with open(str(self.path)) as f:
+        with open(str(self.config)) as f:
             fcntl.flock(f, fcntl.LOCK_EX)
             config = f.read()
             fcntl.flock(f, fcntl.LOCK_UN)
@@ -43,13 +43,13 @@ class Config(object):
         return objects
 
     def write(self, string):
-        with open(self.path, 'a') as f:
+        with open(self.config, 'a') as f:
             fcntl.flock(f, fcntl.LOCK_EX)
             f.write(string)
             fcntl.flock(f, fcntl.LOCK_UN)
 
     def overwrite(self, string):
-        with open(self.path, 'w') as f:
+        with open(self.config, 'w') as f:
             fcntl.flock(f, fcntl.LOCK_EX)
             f.write(string)
             fcntl.flock(f, fcntl.LOCK_UN)

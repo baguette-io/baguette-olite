@@ -58,7 +58,6 @@ After that, we can create and get a repo using `create` and `get` methods.
     # create a repo
     repo = olite.repos.get('my_repo')
     repo = olite.repos.create('ydo')
-    repo = olite.repos.get_or_create('second_repo')
 
     # List existing Pyolite repos
     repos = olite.repos.all()
@@ -105,9 +104,6 @@ You an easly manipulate `users` aswell, using allmost the same API.
 
     # get user by name
     vlad = olite.users.get(name='admin')
-
-    # get_or_create django style
-    vlad = olite.users.get_or_create('alice')
 
     # add new key to user
     vlad.keys.append('/path/to/key')

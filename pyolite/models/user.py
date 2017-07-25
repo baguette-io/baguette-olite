@@ -6,7 +6,7 @@ from pyolite.views import ListKeys
 
 
 class User(object):
-    def __init__(self, path, git, name, **kwargs):
+    def __init__(self, name, path, git, **kwargs):
         self.name = name
         self.path = path
         self.git = git
@@ -33,7 +33,7 @@ class User(object):
                     repos.append(repo)
 
         if repos or keys:
-            return cls(path, git, name, repos=repos, keys=keys)
+            return cls(name, path, git, repos=repos, keys=keys)
         return None
 
     @classmethod

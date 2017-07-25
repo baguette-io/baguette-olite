@@ -46,15 +46,15 @@ class ListUsers(object):
 
     @with_user
     def edit(self, user, permission):
-        pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % user.name
-        string = r"\n        %s        =        %s" % (permission, user.name)
+        pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\n' % user.name
+        string = r"        %s        =        %s\n" % (permission, user.name)
         self.parent.replace(pattern, string)
         self.parent.git.commit(['conf'], "User %s has %s permission for %s" % (user.name, permission, self.parent))
         return user
 
     @with_user
     def remove(self, user):
-        pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % user.name
+        pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\n' % user.name
         self.parent.replace(pattern, "")
         self.parent.git.commit(['conf'], "Deleted user %s from %s" % (user.name, self.parent))
 
@@ -63,8 +63,8 @@ class ListUsers(object):
         for user in self.parent.objects:
             if user == "None":
                 continue
-            pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % user
-            with open(str(self.parent.path)) as f:
+            pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\n' % user
+            with open(str(self.parent.config)) as f:
                 config = f.read()
                 for match in re.compile(pattern).finditer(config):
                     perm = match.group(2)

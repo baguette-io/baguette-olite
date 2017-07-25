@@ -7,6 +7,7 @@ class Group(object):
     def __init__(self, name, path, git):
         self.name = name
         self.path = path
+        self.config = os.path.join(path, 'conf', 'groups', '{}.conf'.format(name))
         self.git = git
         self.regex = re.compile(r'=( *)(@\w+)')
         self.users = ListUsers(self)

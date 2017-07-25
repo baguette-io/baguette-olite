@@ -10,6 +10,7 @@ class Repository(Config):
     def __init__(self, name, path, git):
         self.name = name
         self.path = path
+        self.config = os.path.join(path, 'conf', 'repos', '{}.conf'.format(name))
         self.git = git
         self.regex = re.compile('=( *)(\w+)')
         #

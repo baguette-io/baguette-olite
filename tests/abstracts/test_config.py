@@ -7,6 +7,7 @@ from pyolite.abstracts import Config
 class Repo(Config):
     def __init__(self, path):
         self.path = path
+        self.config = path
         self.regex = re.compile(r'=( *)(\w+)')
         from pyolite.views import ListUsers
         self.users = ListUsers(self)

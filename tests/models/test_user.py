@@ -31,7 +31,7 @@ def test_if_a_user_can_be_retrieved_by_name():
 
     with patch.multiple('pyolite.models.user', Path=mocks['path'],
                         ListKeys=mocks['keys']):
-        user = User(mocks['initial_path'], mocks['git'], 'vtemian', repos=None,
+        user = User('vtemian', mocks['initial_path'], mocks['git'], repos=None,
                     keys=[mocks['first_key']])
         test_user = User.get_by_name('vtemian', mocks['initial_path'],
                                      mocks['git'])
@@ -56,7 +56,7 @@ def test_if_user_is_admin():
 
     with patch.multiple('pyolite.models.user', Path=mocks['path'],
                         ListKeys=mocks['keys']):
-        user = User(mocks['initial_path'], mocks['git'], 'vtemian', repos=None,
+        user = User('vtemian', mocks['initial_path'], mocks['git'], repos=None,
                     keys=[mocks['first_key']])
         assert not user.is_admin
 
