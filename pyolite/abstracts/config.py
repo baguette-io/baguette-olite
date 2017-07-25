@@ -2,6 +2,7 @@ import abc
 import fcntl
 import six
 import re
+from unipath import Path
 
 @six.add_metaclass(abc.ABCMeta)
 class Config(object):
@@ -9,11 +10,9 @@ class Config(object):
     Config file management.
     """
 
-    @property
     def path(self):
         raise NotImplementedError
 
-    @property
     def regex(self):
         raise NotImplementedError
 

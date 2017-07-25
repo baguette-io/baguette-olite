@@ -63,14 +63,14 @@ After that, we can create and get a repo using `create` and `get` methods.
     # List existing Pyolite repos
     repos = olite.repos.all()
     for repo_it in repos:
-    print repo_it.name
+        print(repo_it.name)
 
 
 Every repo has an `users` object, in order to facilitate basic operations: adding, editing and removing users from a repository.
 
 ::
 
-    print "Repo's users: %s" % repo.users
+    print("Repo's users: %s" % repo.users)
     # list a repo's users
     users_as_list = repo.users.list()
 
@@ -114,7 +114,7 @@ You an easly manipulate `users` aswell, using allmost the same API.
     vlad.keys.append('just put the key here')
 
     # check if user is admin or not
-    print vlad.is_admin
+    print(vlad.is_admin)
 
     # list user's keys and repos
     keys_as_list = vlad.list_keys()
@@ -122,4 +122,4 @@ You an easly manipulate `users` aswell, using allmost the same API.
 
     # delete a user by name
     deleted_user = olite.users.delete('username')
-    print deleted_user
+    print(deleted_user)

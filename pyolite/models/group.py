@@ -1,4 +1,5 @@
 import re
+from six import string_types
 from unipath import Path
 from pyolite.views import ListUsers
 
@@ -20,7 +21,7 @@ class Group(object):
 
     @classmethod
     def get(cls, group, path, git):
-        if isinstance(group, str):
+        if isinstance(group, string_types):
             group = Group.get_by_name(group, path, git)
 
         if not isinstance(group, Group) or not group:

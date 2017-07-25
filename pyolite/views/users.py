@@ -1,5 +1,5 @@
+import pyolite
 import re
-import pyolite.models as models
 
 
 ACCEPTED_PERMISSIONS = set('RW+CD')
@@ -14,9 +14,9 @@ def with_user(func):
         :type user: str
         """
         try:
-            user = models.User.get(self.parent.path, self.parent.git, user)
+            user = pyolite.User.get(user, self.parent.path, self.parent.git)
         except ValueError:
-            user = models.User(self.parent.path, self.parent.git, user)
+            user = pyolite.User(user, self.parent.path, self.parent.git)
         return func(self, user, *args, **kwargs)
     return decorated
 
@@ -36,9 +36,9 @@ class ListUsers(object):
         commit_message = 'User %s added to %s with permissions: %s' % (user, self.parent, permission)
         self.parent.git.commit(['conf'], commit_message)
         #
-        if isinstance(self.parent, models.Repository):
+        if isinstance(self.parent, pyolite.Repository):
             user.repos.append(self.parent)
-        #elif isinstance(self.parent, models.Group):
+        #elif isinstance(self.parent, pyolite.Group):
         #    user.groups.append(self.parent)
         else:
             raise TypeError

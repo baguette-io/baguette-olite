@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+from six import string_types
 import os
 
 from sh import git
@@ -10,7 +11,7 @@ class Git(object):
 
     def commit(self, objects, message):
         # validate commit message
-        if not message or not isinstance(message, str):
+        if not message or not isinstance(message, string_types):
             raise ValueError("Commit message should not be empty or not string")
 
         env = os.environ.copy()
