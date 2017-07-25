@@ -1,23 +1,24 @@
-from unipath import Path
+import re
+from six import string_types
+from  unipath import Path
 
-from pyolite.models.lists import ListKeys
+from pyolite.views import ListKeys
 
 
 class User(object):
-    def __init__(self, path, git, name, repos=None, keys=None):
+    def __init__(self, name, path, git, **kwargs):
         self.name = name
-        self.repos = repos or []
-
         self.path = path
         self.git = git
-
-        keys = keys or []
-        self.keys = ListKeys(self, keys)
+        self.regex = re.compile(r'=( *)(\w+)')
+        #
+        self.repos = kwargs.get('repos') or []
+        self.keys = ListKeys(self, kwargs.get('keys') or [])
 
     @classmethod
     def get_by_name(cls, name, path, git):
         # get user's keys
-        key_path = Path(path, 'keydir')
+        key_path = Path(str(path), 'keydir')
         keys = [key for key in key_path.walk() if key.endswith('%s.pub' % name)]
 
         # get user's repos
@@ -32,14 +33,13 @@ class User(object):
                     repos.append(repo)
 
         if repos or keys:
-            return cls(path, git, name, repos, keys)
-        else:
-            return None
+            return cls(name, path, git, repos=repos, keys=keys)
+        return None
 
     @classmethod
     def get(cls, user, path, git):
-        if isinstance(user, basestring):
-            user = User.get_by_name(user, path, git)
+        if isinstance(user, string_types):
+            user = User.get_by_name(user, str(path), git)
 
         if not isinstance(user, User) or not user:
             message = 'Missing user or invalid type'
@@ -53,21 +53,6 @@ class User(object):
             if 'gitolite.conf' in repo:
                 return True
         return False
-
-    def list_keys(self):
-        keys = []
-        for key in self.keys:
-            if key.isfile():
-                with open(str(key)) as f:
-                    cont = f.read()
-            keys.append({"name":key, "key":cont.replace("\n","")})
-        return keys
-
-    def list_repos(self):
-        repos = []
-        for repo in self.repos:
-            repos.append(repo.name.replace(".conf", ""))
-        return repos
 
     def __str__(self):
         return "< %s >" % self.name

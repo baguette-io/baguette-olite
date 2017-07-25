@@ -9,7 +9,7 @@ class ListKeys(list):
         self.user = user
 
     def append(self, key):
-        key_path = Path(key)
+        key_path = Path(str(key))
 
         if key_path.isfile():
             with open(str(key_path)) as f:
@@ -26,10 +26,8 @@ class ListKeys(list):
         if key_file.exists() and key_file.read_file() == key:
                 return
 
-        key_file.write_file(key)
-
-        self.user.git.commit(['keydir'],
-                                                 'Added new key for user %s' % self.user.name)
+        key_file.write_file(str(key))
+        self.user.git.commit(['keydir'], 'Added new key for user %s' % self.user.name)
 
         super(ListKeys, self).append(key)
 

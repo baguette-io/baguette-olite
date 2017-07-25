@@ -1,8 +1,8 @@
 import re
 from unipath import Path
 
-from pyolite.models.user import User
-from pyolite.managers.manager import Manager
+from pyolite.abstracts import Manager
+from pyolite import User
 
 
 class UserManager(Manager):
@@ -36,7 +36,7 @@ class UserManager(Manager):
             if obj.isdir():
                 continue
 
-            files = re.compile('(\w+.pub)').findall(str(obj))
+            files = re.compile(r'(\w+.pub)').findall(str(obj))
             if files:
                 users += files
 

@@ -1,10 +1,9 @@
+import six
 from abc import ABCMeta, abstractmethod
-
 from unipath import Path
-
 from pyolite.git import Git
 
-
+@six.add_metaclass(ABCMeta)
 class Manager(object):
     __metaclass__ = ABCMeta
 
@@ -19,11 +18,11 @@ class Manager(object):
         return self.get(lookup_entity) or self.create(lookup_entity, *args, **kwargs)
 
     @abstractmethod
-    def get(self, entity):
+    def get(self, *args, **kwargs):
         raise NotImplementedError("Each manager needs a get method")
 
     @abstractmethod
-    def create(self, entity):
+    def create(self, *args, **kwargs):
         raise NotImplementedError("Each manager needs a create method")
 
     @abstractmethod
