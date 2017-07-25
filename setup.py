@@ -9,6 +9,7 @@ setup(name="baguette-olite",
       url="https://github.com/baguette-io/baguette-olite/",
       description="Python wrapper for gitolite",
       long_description=open('README.rst').read(),
+      keywords=['git', 'gitolite'],
       packages=find_packages(),
       include_package_data=True,
       classifiers=[
