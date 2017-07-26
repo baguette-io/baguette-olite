@@ -15,9 +15,9 @@ def with_group(func):
         :type group: str
         """
         try:
-            group = Group.get(group, self.repository_model.path, self.repository_model.git)
+            group = Group.get(group, self.path, self.git)
         except ValueError:
-            group = Group(group, self.repository_model.path, self.repository_model.git)
+            group = Group(group, self.path, self.git)
         return func(self, group, *args, **kwargs)
     return decorated
 
@@ -26,65 +26,45 @@ class ListGroups(object):
         self.parent = parent
 
     @with_group
-    def add(self, user, permission):
-        if user.name in self.parent.objects:
-            return user
+    def add(self, group, permission):
+        if group.name in self.parent.objects:
+            return group
         #
         if set(map(lambda permission: permission.upper(), permission)) - ACCEPTED_PERMISSIONS != set([]):
             raise ValueError('Invalid permissions. They must be from %s' % ACCEPTED_PERMISSIONS)
         #
-        self.parent.write("        %s         =        %s\n" % (permission, user.name))
-        commit_message = 'User %s added to %s with permissions: %s' % (user, self.parent, permission)
+        self.parent.write("        %s         =        @%s\n" % (permission, group.name))
+        commit_message = 'Group %s added to %s with permissions: %s' % (group, self.parent, permission)
         self.parent.git.commit(['conf'], commit_message)
-        #
-        if isinstance(self.parent, Repo):
-            user.repos.append(self.parent)
-        elif isinstance(self.parent, Group):
-            user.groups.append(self.parent)
-        else:
-            raise TypeError
-        return user
+        group.repos.append(self.parent)
+        return group
 
     @with_group
-    def edit(self, user, permission):
-        pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % user.name
-        string = r"\n        %s        =        %s" % (permission, user.name)
+    def edit(self, group, permission):
+        pattern = r'(\s*)([RW+DC]*)(\s*)=@(\s*)%s\s+' % group.name
+        string = r"\n        %s        =        @%s" % (permission, user.name)
         self.parent.replace(pattern, string)
-        self.parent.git.commit(['conf'], "User %s has %s permission for %s" % (user.name, permission, self.parent))
-        return user
+        self.parent.git.commit(['conf'], "Group %s has %s permission for %s" % (group.name, permission, self.parent))
+        return group
 
     @with_group
-    def remove(self, user):
-        pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % user.name
+    def remove(self, group):
+        pattern = r'(\s*)([RW+DC]*)(\s*)=@(\s*)%s\s+' % group.name
         self.parent.replace(pattern, "")
-        self.parent.git.commit(['conf'], "Deleted user %s from %s" % (user.name, self.parent))
+        self.parent.git.commit(['conf'], "Deleted group %s from %s" % (group.name, self.parent))
 
     def list(self):
-        users = []
-        for user in self.parent.objects:
-            if user == "None":
+        groups = []
+        for group in self.parent.objects:
+            if group == "None":
                 continue
-            pattern = r'(\s*)([RW+DC]*)(\s*)=(\s*)%s\s+' % user
+            pattern = r'(\s*)([RW+DC]*)(\s*)=@(\s*)%s\s+' % group
             with open(str(self.parent.path)) as f:
                 config = f.read()
                 for match in re.compile(pattern).finditer(config):
                     perm = match.group(2)
-            users.append({"name":user, "permission":perm})
-        return users
-
-    def __iter__(self):
-        for user in self._users:
-            yield user
-
-    def __getitem__(self, item):
-        return self._users[item]
-
-    def __setitem__(self, item, value):
-        self._users[item] = value
-
-    def __add__(self, items):
-        for item in items:
-            self.append(item)
+            groups.append({"name":group, "permission":perm})
+        return groups
 
     def __str__(self):
         return "['%s']" % ', '.join(self.parent.objects)
