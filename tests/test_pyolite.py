@@ -15,5 +15,6 @@ def test_if_pyolite_object_has_all_attributes():
         pyolite = Pyolite('my_repo')
 
         assert pyolite.admin_repository == 'my_repo'
+        mocked_group.assert_called_once_with('my_repo')
         mocked_repository.assert_called_once_with('my_repo')
         mocked_user.assert_called_once_with('my_repo')
