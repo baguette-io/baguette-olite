@@ -1,3 +1,4 @@
+import os
 import re
 from six import string_types
 from unipath import Path
@@ -18,11 +19,10 @@ class Group(object):
         if isinstance(name, string_types):
             _path = Path(os.path.join(path, 'conf', 'groups', '{}.conf'.format(name)))
             if _path.exists():
-                group = Group(name, path, git)
-        if not isinstance(name, Group) or not group:
-            message = 'Missing group or invalid type'
-            raise ValueError(message)
-        return group
+                return Group(name, path, git)
+        elif isinstance(name, Group):
+            return name
+        raise ValueError('Missing group : <%s>, or invalid type : %s' % (name, type(name)))
 
     def __str__(self):
         return "<Group: %s >" % self.name

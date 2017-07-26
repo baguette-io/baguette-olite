@@ -15,6 +15,17 @@ class GroupManager(Manager):
         """
         return Group.get(name, self.path, self.git)
 
+    def get_or_create(self, name):
+        """
+        Given a name, retrieve the group.
+        Otherwise create it.
+        :param name: the group name to retrieve/create.
+        :type name: str
+        :returns: The group retrieved.
+        :rtype: pyolite.models.Group
+        """
+        return self.create(name)
+
     def create(self, name):
         """
         Given a name, create the group. Idempotent.
@@ -33,7 +44,7 @@ class GroupManager(Manager):
         #
         path.write_file("")
         self.git.commit([str(path)], 'Created group %s' % name)
-        return Group(entity, self.path, self.git)
+        return Group(name, self.path, self.git)
 
     def delete(self, name):
         """
@@ -43,14 +54,12 @@ class GroupManager(Manager):
         :returns: The deletion status.
         :rtype: bool
         """
-        group = self.get(name)
-        if not group:
-            return False
         path = Path(os.path.join(self.path, 'conf', 'groups', '{}.conf'.format(name)))
         if not path.exists():#Already exist
             return False
         path.remove()
         self.git.commit([str(path)], 'Deleted group {}.'.format(name))
+        return True
 
     def all(self):
         """
