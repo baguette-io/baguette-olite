@@ -119,3 +119,34 @@ You an easly manipulate `users` aswell, using allmost the same API.
     # delete a user by name
     deleted_user = olite.users.delete('username')
     print(deleted_user)
+
+Groups API
+==========
+
+You an easly manipulate `groups` aswell, using allmost the same API.
+
+::
+
+    from pyolite import Pyolite
+
+    # initial olite object
+    admin_repository = '/home/absolute/path/to/gitolite/repo/'
+    olite = Pyolite(admin_repository=admin_repository)
+
+    # create group object
+    group1 = olite.groups.create('group1')
+    # create is idempotent
+    group1 = olite.groups.create('group1')
+
+    #get or create( `create()` wrapper)
+    group2 = olite.groups.get_or_create('group2')
+    group2 = olite.groups.get_or_create('group2')
+
+    # get group by name
+    group1 = olite.groups.get('group1')
+
+    # list all groups
+    olite.groups.all()
+
+    # delete a group by name
+    olite.group.delete('group1')
