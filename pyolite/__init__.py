@@ -1,4 +1,4 @@
-from pyolite.models import User, Repository
+from pyolite.models import Group, User, Repository
 from pyolite.managers import GroupManager, RepositoryManager, UserManager
 
 class Pyolite(object):
