@@ -2,19 +2,23 @@ import os
 import re
 from six import string_types
 from unipath import Path
-from pyolite.views import ListUsers
+from pyolite.abstracts import Config
 
-class Group(object):
+class Group(Config):
     def __init__(self, name, path, git):
         self.name = name
         self.path = path
         self.git = git
         self.config = os.path.join(path, 'conf', 'groups', '{}.conf'.format(name))
-        self.regex = re.compile(r'=( *)@(\w+)')
-        self.users = ListUsers(self)
+        self.regex = re.compile(r'(@{}) = (\w+)'.format(self.name))
 
     @classmethod
     def get(cls, name, path, git):
+        """
+        Try to retrieve a group, given a name.
+        :rtype: pyolite.models.Group
+        :raises ValueError: if the group does not exist.
+        """
         group = None
         if isinstance(name, string_types):
             _path = Path(os.path.join(path, 'conf', 'groups', '{}.conf'.format(name)))

@@ -40,11 +40,9 @@ class User(object):
     def get(cls, user, path, git):
         if isinstance(user, string_types):
             user = User.get_by_name(user, str(path), git)
-
         if not isinstance(user, User) or not user:
             message = 'Missing user or invalid type'
             raise ValueError(message)
-
         return user
 
     @property

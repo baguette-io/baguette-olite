@@ -1,6 +1,6 @@
 import os
 from unipath import Path
-from pyolite import Group
+from pyolite import Group, User
 from pyolite.abstracts import Manager
 
 class GroupManager(Manager):
@@ -71,7 +71,59 @@ class GroupManager(Manager):
         for obj in path.walk():
             if obj.isdir():
                 continue
-            files = re.compile('(\w+.conf$)').findall(str(obj))
+            files = re.compile(r'(\w+.conf$)').findall(str(obj))
             if files:
                 groups += files
         return [Group.get(group[:-5], self.path, self.git) for group in set(groups)]
+
+    def user_add(self, group, user):
+        """
+        Add an user into a group.
+        :param group: The group on which the operation occurs.
+        :type group: str, pyolite.models.Group
+        :param user: the user to add.
+        :type user: str, pyolite.models.User
+        :returns: The add status.
+        :rtype: bool
+        """
+        #1. Check for non existing objects
+        try:
+            group = self.get(group)
+        except ValueError:
+            return False
+        try:
+            user = User.get(user, self.path, self.git)
+        except ValueError:
+            return False
+        #2. Idempotency
+        if user.name in group.objects:
+            return True
+        #3. Create
+        group.write("@{} = {}\n".format(group.name, user.name))
+        return True
+
+    def user_delete(self, group, user):
+        """
+        Delete an user from a group.
+        :param group: The group on which the operation occurs.
+        :type group: str, pyolite.models.Group
+        :param user: the user to delete.
+        :type user: str, pyolite.models.User
+        :returns: The deletion status.
+        :rtype: bool
+        """
+        #1. Check for non existing objects
+        try:
+            group = self.get(group)
+        except ValueError:
+            return False
+        try:
+            user = User.get(user, self.path, self.git)
+        except ValueError:
+            return False
+        #2. Idempotency
+        if user.name not in group.objects:
+            return True
+        #3. Delete
+        group.replace("@{} = {}\n".format(group.name, user.name), "")
+        return True
