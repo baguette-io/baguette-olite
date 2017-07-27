@@ -149,4 +149,10 @@ You an easly manipulate `groups` aswell, using allmost the same API.
     olite.groups.all()
 
     # delete a group by name
-    olite.group.delete('group1')
+    olite.groups.delete('group1')
+
+    # add an user to the gorup
+    olite.groups.user_add('group1', 'user1')
+
+    # delete an user from a group
+    olite.groups.user_delete('group1', 'user1')
