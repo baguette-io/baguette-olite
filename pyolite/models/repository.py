@@ -1,7 +1,6 @@
 import os
 import re
 from unipath import Path
-#from pyolite.views import ListGroups, ListUsers
 from pyolite.views import ListUsers
 from pyolite.abstracts import Config
 
@@ -12,10 +11,21 @@ class Repository(Config):
         self.path = path
         self.config = os.path.join(path, 'conf', 'repos', '{}.conf'.format(name))
         self.git = git
-        self.regex = re.compile('=( *)(\w+)')
+        self.regex = re.compile('=( *)[@|](\w+)')
         #
         self.users = ListUsers(self)
-        #self.groups = ListGroups(self)
+
+    @classmethod
+    def get(cls, lookup_repo, path, git):
+        """
+        Try to retrieve a repository, given a name.
+        :rtype: pyolite.models.Repo
+        :raises ValueError: if the repo does not exist.
+        """
+        repo = cls.get_by_name(lookup_repo, path, git)
+        if not repo:
+            raise ValueError("Missing repo : %s" % lookup_repo)
+        return repo
 
     @classmethod
     def get_by_name(cls, lookup_repo, path, git):

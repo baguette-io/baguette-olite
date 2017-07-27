@@ -24,6 +24,16 @@ def user_factory(olite):
         return name
     return factory
 
+@pytest.fixture
+def repo_factory(olite):
+    def factory(name):
+        return olite.repos.create(name)
+    return factory
+
+@pytest.fixture
+def repo1(repo_factory):
+    return repo_factory('repo1')
+
 def test_create(olite):
     group = olite.groups.create('test_create')
     assert os.path.exists(group.config)
@@ -130,3 +140,60 @@ def test_delete_user_invalid(olite, group1, user_factory):
     #
     user_factory('user1')
     assert olite.groups.user_delete('group2', 'user1') is False
+
+def test_add_repo(olite, group1, repo1):
+    assert olite.groups.repo_add('group1', 'repo1', 'rw') is True
+    assert open(repo1.config).read() == "repo repo1\n       RW         =        @group1\n"
+    # Add a second group
+    olite.groups.create('group2')
+    assert olite.groups.repo_add('group2', 'repo1', 'r') is True
+    assert open(repo1.config).read() == "repo repo1\n       RW         =        @group1\n       R         =        @group2\n"
+
+def test_add_repo_idempotent(olite, group1, repo1):
+    assert olite.groups.repo_add('group1', 'repo1', 'rw') is True
+    assert olite.groups.repo_add('group1', 'repo1', 'rw') is True
+    assert open(repo1.config).read() == "repo repo1\n       RW         =        @group1\n"
+
+def test_add_repo_invalid(olite, group1, repo1):
+    #Invalid group
+    assert olite.groups.repo_add('group2', 'repo1', 'rw') is False
+    #Invalid repo
+    assert olite.groups.repo_add('group1', 'repo2', 'rw') is False
+    #Invalid permission
+    assert olite.groups.repo_add('group1', 'repo1', 'a+') is False
+
+def test_delete_repo(olite, group1, repo1):
+    assert olite.groups.repo_add('group1', 'repo1', 'rw') is True
+    assert open(repo1.config).read() == "repo repo1\n       RW         =        @group1\n"
+    #
+    assert olite.groups.repo_delete('group1', 'repo1') is True
+    assert open(repo1.config).read() == "repo repo1\n"
+
+def test_delete_repo_multi(olite, repo1):
+    olite.groups.create('group1')
+    olite.groups.create('group2')
+    olite.groups.create('group3')
+    olite.groups.repo_add('group1', 'repo1', 'rw')
+    olite.groups.repo_add('group2', 'repo1', 'rw')
+    olite.groups.repo_add('group3', 'repo1', 'rw')
+    assert open(repo1.config).read() == "repo repo1\n       RW         =        @group1\n       RW         =        @group2\n       RW         =        @group3\n"
+    #
+    assert olite.groups.repo_delete('group2', 'repo1') is True
+    assert open(repo1.config).read() == "repo repo1\n       RW         =        @group1\n       RW         =        @group3\n"
+    #
+    assert olite.groups.repo_delete('group1', 'repo1') is True
+    assert open(repo1.config).read() == "repo repo1\n       RW         =        @group3\n"
+    #
+    assert olite.groups.repo_delete('group3', 'repo1') is True
+    assert open(repo1.config).read() == "repo repo1\n"
+
+
+def test_delete_repo_idempotent(olite, group1, repo1):
+    assert olite.groups.repo_add('group1', 'repo1', 'rw') is True
+    assert open(repo1.config).read() == "repo repo1\n       RW         =        @group1\n"
+    #
+    assert olite.groups.repo_delete('group1', 'repo1') is True
+    assert open(repo1.config).read() == "repo repo1\n"
+    #
+    assert olite.groups.repo_delete('group1', 'repo1') is True
+    assert open(repo1.config).read() == "repo repo1\n"

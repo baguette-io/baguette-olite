@@ -1,6 +1,6 @@
 import os
 from unipath import Path
-from pyolite import Group, User
+from pyolite import Group, Repository, User
 from pyolite.abstracts import Manager
 
 class GroupManager(Manager):
@@ -100,6 +100,8 @@ class GroupManager(Manager):
             return True
         #3. Create
         group.write("@{} = {}\n".format(group.name, user.name))
+        commit_message = 'User %s added to group %s' % (user.name, group.name)
+        self.git.commit(['conf'], commit_message)
         return True
 
     def user_delete(self, group, user):
@@ -126,4 +128,69 @@ class GroupManager(Manager):
             return True
         #3. Delete
         group.replace("@{} = {}\n".format(group.name, user.name), "")
+        commit_message = 'User %s deleted from group %s' % (user.name, group.name)
+        self.git.commit(['conf'], commit_message)
+        return True
+
+    def repo_add(self, group, repo, permission):
+        """
+        Add a group to a repo.
+        :param group: The group on which the operation occurs.
+        :type group: str, pyolite.models.Group
+        :param repo: the repo to add the group.
+        :type repo: str, pyolite.models.Repository
+        :param permission: The group permission
+        :type permission: str
+        :returns: The add status.
+        :rtype: bool
+        """
+        #1. Check for non existing objects
+        try:
+            group = self.get(group)
+        except ValueError:
+            return False
+        try:
+            repo = Repository.get(repo, self.path, self.git)
+        except ValueError:
+            return False
+        #2. Check for permissions
+        permission = permission.upper()
+        accepted = set('RW+CD')
+        if set(i for i in permission) - accepted != set([]):
+            return False
+        #3. Idempotency (we don't give a ** about the permission for idempotency)
+        if group.name in repo.objects:
+            return True
+        #4. Create
+        repo.write("       %s         =        @%s\n" % (permission, group.name))
+        commit_message = 'Group %s added to repo %s' % (group.name, repo.name)
+        self.git.commit(['conf'], commit_message)
+        return True
+
+    def repo_delete(self, group, repo):
+        """
+        Remove a group from a repo.
+        :param group: The group on which the operation occurs.
+        :type group: str, pyolite.models.Group
+        :param repo: the repo to delete the group from.
+        :type repo: str, pyolite.models.Repository
+        :returns: The deletion status.
+        :rtype: bool
+        """
+        #1. Check for non existing objects
+        try:
+            group = self.get(group)
+        except ValueError:
+            return False
+        try:
+            repo = Repository.get(repo, self.path, self.git)
+        except ValueError:
+            return False
+        #2. Idempotency
+        if group.name not in repo.objects:
+            return True
+        #3. Delete
+        repo.replace(r'.*= *@%s\n' % group.name, '')
+        commit_message = 'Group %s deleted from repo %s' % (group.name, repo.name)
+        self.git.commit(['conf'], commit_message)
         return True

@@ -156,3 +156,9 @@ You an easly manipulate `groups` aswell, using allmost the same API.
 
     # delete an user from a group
     olite.groups.user_delete('group1', 'user1')
+
+    # add a group to a repo
+    olite.groups.repo_add('group1', 'repo1', 'RW')
+
+    # delete a group from a repo
+    olite.groups.repo_delete('group1', 'repo1')
