@@ -23,8 +23,7 @@ def test_create_user_succesfully():
         users = UserManager('~/path/to/admin/gitolite/repo')
 
         assert mocked_user_obj == users.create('test_username', 'key_path')
-        mocked_user.assert_called_once_with(mocked_path, mocked_git,
-                                            'test_username')
+        mocked_user.assert_called_once_with('test_username', mocked_path, mocked_git)
         mocked_user_obj.keys.append.assert_called_once_with('key_path')
 
 def test_get_user():

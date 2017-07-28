@@ -10,7 +10,7 @@ class UserManager(Manager):
         if key is None and key_path is None:
             raise ValueError('You need to specify a key or key_path')
 
-        user = User(self.path, self.git, name)
+        user = User(name, self.path, self.git)
         user.keys.append(key or key_path)
         return user
 
