@@ -87,6 +87,20 @@ def test_delete(olite, group1):
 def test_delete_not_exist(olite):
     assert olite.groups.delete('group2') is False
 
+def test_delete_in_repo(olite):
+    """
+    Delete a group which is in a repo.
+    """
+    group = olite.groups.create('group1')
+    repo = olite.repos.create('repo1')
+    #
+    olite.groups.repo_add('group1', 'repo1', 'rw') is True
+    assert open(repo.config).read() == "repo repo1\n       RW         =        @group1\n"
+    print repo.config
+    #
+    olite.groups.delete('group1')
+    assert open(repo.config).read() == "repo repo1\n"
+
 def test_add_user(olite, group1, user_factory):
     user_factory('user1')
     assert olite.groups.user_add('group1', 'user1') is True

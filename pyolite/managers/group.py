@@ -54,10 +54,19 @@ class GroupManager(Manager):
         :returns: The deletion status.
         :rtype: bool
         """
+        #1. Remove the conf file
         path = Path(os.path.join(self.path, 'conf', 'groups', '{}.conf'.format(name)))
         if not path.exists():#Already exist
             return False
         path.remove()
+        #2. Remove it from the repos file.
+        for repo in Path(self.path, 'conf', 'repos').walk():
+            if repo.isdir():
+                continue
+            with open(str(repo)) as f:
+                if name in f.read():
+                    Repository.get(os.path.splitext(os.path.basename(repo))[0], self.path, self.git).replace(r'.*= *@%s\n' % name, '')
+        #3. Commit
         self.git.commit([str(path)], 'Deleted group {}.'.format(name))
         return True
 
