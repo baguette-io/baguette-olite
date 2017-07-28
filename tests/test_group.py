@@ -96,7 +96,6 @@ def test_delete_in_repo(olite):
     #
     olite.groups.repo_add('group1', 'repo1', 'rw') is True
     assert open(repo.config).read() == "repo repo1\n       RW         =        @group1\n"
-    print repo.config
     #
     olite.groups.delete('group1')
     assert open(repo.config).read() == "repo repo1\n"
