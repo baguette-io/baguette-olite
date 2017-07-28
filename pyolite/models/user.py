@@ -1,3 +1,4 @@
+import os
 import re
 from six import string_types
 from  unipath import Path
@@ -13,6 +14,7 @@ class User(object):
         self.regex = re.compile(r'=( *)(\w+)')
         #
         self.repos = kwargs.get('repos') or []
+        self.groups = kwargs.get('groups') or []
         self.keys = ListKeys(self, kwargs.get('keys') or [])
 
     @classmethod
@@ -22,18 +24,22 @@ class User(object):
         keys = [key for key in key_path.walk() if key.endswith('%s.pub' % name)]
 
         # get user's repos
-        repos = []
-        repos_path = Path(path, 'conf/')
-        for repo in repos_path.walk():
-            if repo.isdir():
-                continue
+        def get_objects(suffix):
+            objects = []
+            for obj in Path(path, 'conf', suffix).walk():
+                if obj.isdir():
+                    continue
+                with open(str(obj)) as f:
+                    if name in f.read():
+                        filename = os.path.splitext(os.path.basename(str(obj)))[0]
+                        objects.append(filename)
+            return objects
+        # get user's repos and groups
+        repos = get_objects('repos')
+        groups = get_objects('groups')
 
-            with open(str(repo)) as f:
-                if name in f.read():
-                    repos.append(repo)
-
-        if repos or keys:
-            return cls(name, path, git, repos=repos, keys=keys)
+        if repos or keys or groups:
+            return cls(name, path, git, repos=repos, keys=keys, groups=groups)
         return None
 
     @classmethod

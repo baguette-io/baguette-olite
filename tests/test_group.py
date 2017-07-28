@@ -89,7 +89,7 @@ def test_delete_not_exist(olite):
 
 def test_delete_in_repo(olite):
     """
-    Delete a group which is in a repo.
+    When deleting a group, it should be removed from its repos.
     """
     group = olite.groups.create('group1')
     repo = olite.repos.create('repo1')
@@ -99,6 +99,22 @@ def test_delete_in_repo(olite):
     #
     olite.groups.delete('group1')
     assert open(repo.config).read() == "repo repo1\n"
+
+def test_delete_user_from_gitolite(olite, user_factory):
+    """
+    When deleting an user, it should be removed from its groups.
+    """
+    group = olite.groups.create('group1')
+    user_factory('user1')
+    user_factory('user2')
+    user_factory('user3')
+    olite.groups.user_add('group1', 'user1')
+    olite.groups.user_add('group1', 'user2')
+    olite.groups.user_add('group1', 'user3')
+    assert open(group.config).read() == "@group1 = user1\n@group1 = user2\n@group1 = user3\n"
+    # Delete user 2
+    olite.users.delete('user2')
+    assert open(group.config).read() == "@group1 = user1\n@group1 = user3\n"
 
 def test_add_user(olite, group1, user_factory):
     user_factory('user1')

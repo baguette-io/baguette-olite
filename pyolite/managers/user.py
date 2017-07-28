@@ -2,7 +2,8 @@ import re
 from unipath import Path
 
 from pyolite.abstracts import Manager
-from pyolite import User
+from pyolite import Group, Repository, User
+from pyolite.managers import GroupManager
 
 
 class UserManager(Manager):
@@ -23,7 +24,9 @@ class UserManager(Manager):
             return
         dest = Path(self.path, 'keydir/%s' % name)
         for repo in user.repos:
-            repo.users.remove(user.name)
+            Repository.get(repo, self.path, self.git).users.remove(user.name)
+        for group in user.groups:
+            GroupManager(self.path).user_delete(group, user.name)
         if dest.exists():
             dest.rmtree()
             self.git.commit([str(dest)], 'Deleted user %s.' % name)

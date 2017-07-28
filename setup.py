@@ -4,7 +4,7 @@ Setup for baguette-olite.
 from setuptools import setup, find_packages
 
 setup(name="baguette-olite",
-      version="0.12",
+      version="0.13",
       author_email="pydavid@baguette.io",
       url="https://github.com/baguette-io/baguette-olite/",
       description="Python wrapper for gitolite",
